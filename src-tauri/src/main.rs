@@ -17,11 +17,11 @@ use tauri::{
 use tauri_plugin_positioner::{Position, WindowExt};
 
 use log::error;
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use tokio::time::sleep;
 
 mod modules;
-use modules::menu;
+//use modules::menu;
 use modules::tauri_commands;
 
 #[derive(Clone, Serialize)]
@@ -80,11 +80,11 @@ async fn main() -> tauri::Result<()> {
 
           async move {
             sleep(Duration::from_secs(3)).await;
-            if !window.is_visible().unwrap_or(true) {
+            /* if !window.is_visible().unwrap_or(true) {
               error!("[]:  Window did not emit `app_ready` event in time, showing it now.");
 
               window.show().expect("Main window failed to show");
-            }
+            } */
           }
         });
 

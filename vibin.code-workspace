@@ -70,6 +70,7 @@
             "codegen",
             "kobalte",
             "loaderror",
+            "nanos",
             "prometheon",
             "pyinstaller",
             "solidjs",
