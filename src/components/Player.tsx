@@ -1,5 +1,7 @@
 import { Howl } from 'howler'
 import { Component, createEffect, createSignal, onMount, onCleanup } from 'solid-js'
+import { error } from 'tauri-plugin-log-api'
+import RangeInput from '@components/RangeInput'
 
 interface PlayerProps {
     src: string
@@ -8,51 +10,68 @@ interface PlayerProps {
 }
 
 const Player: Component<PlayerProps> = (props) => {
-    const [sliderValue, setSliderValue] = createSignal(0)
-    const [sound, setSound] = createSignal(null)
+    const [sound, setSound] = createSignal<Howl | null>(null)
     const [volume, setVolume] = createSignal(0)
+
+    // TODO: Implement Spatial Audio Plugin for Howler
+    // TODO: Implement Dolby Sound
+    /* var dolbySound = new Howl({
+        src: ['sound.mp4', 'sound.webm', 'sound.mp3'],
+        format: ['dolby', 'webm', 'mp3'],
+    }) */
 
     createEffect(() => {
         if (sound()) {
-            /* sound.value.volume(value / 100)
+            const value = volume() / 100
             if (value === 0) {
-                sound.value.stop()
-            } else if (!sound.value.playing()) {
-                sound.value.play()
-            } */
+                sound()!.stop()
+            } else if (!sound()!.playing()) {
+                sound()!.play()
+            }
         }
     })
 
     onMount(() => {
-        /*  sound.value = new Howl({
-            src: [props.src],
-            volume: volume.value / 100,
-            loop: true,
+        setSound(
+            new Howl({
+                src: [props.src],
+                volume: volume() / 100,
+                loop: true,
+            }),
+        )
+
+        sound()!.on('loaderror', () => {
+            console.error('[Player]: Error loading audio')
+            error('[Player]: Error loading audio')
         })
 
-        sound.value.on('loaderror', () => {
-            console.error('Error loading audio')
-        })
-
-        if (volume.value > 0) {
-            sound.value.play()
+        if (volume() > 0) {
+            sound()!.play()
         }
 
-        emitter.on('stopAll', () => {
+        // TODO: Hook into stopAll event from footer
+        /* emitter.on('stopAll', () => {
             sound.value.stop()
             sliderValue.value = [0]
         }) */
     })
 
     onCleanup(() => {
-        /* if (sound.value) {
-            sound.value.stop()
-            sound.value.unload()
-        } */
+        if (sound()) {
+            sound()!.stop()
+            sound()!.unload()
+        }
     })
     return (
         <div class="flex items-center gap-3 text-gray-600 mb-1">
-            <span class="text-lg icon"></span>
+            <span class="text-lg icon" />
+            <RangeInput
+                onChange={(value) => {
+                    setVolume(value)
+                }}
+                format="percent"
+                disablePercent
+            />
         </div>
     )
 }

@@ -5,8 +5,8 @@ import { BULLET_POSITION_ADJUSTMENT, getBulletPosition } from '@src/utils'
 import './styles.css'
 
 export interface IProps {
-    onChange: (format: string, value: number) => void
-    format: string
+    onChange: (value: number, format?: string) => void
+    format?: string
     disablePercent?: boolean
 }
 
@@ -81,12 +81,14 @@ const RangeInput = (props: IProps) => {
                     onMouseEnter={() => rangeBulletRef?.classList.add('rs-background')}
                     onMouseLeave={() => rangeBulletRef?.classList.remove('rs-background')}
                     ref={rangeSliderRef}
-                    onChange={() => props.onChange(props.format, rangeValue())}
+                    onChange={() => props.onChange(rangeValue(), props.format ?? '')}
                     class="rs-range"
                     type="range"
                     value={rangeValue()}
                     min="0"
                     max="100"
+                    step="0.02"
+                    aria-label="Volume"
                 />
             </div>
         </div>
