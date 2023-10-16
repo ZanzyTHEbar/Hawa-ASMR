@@ -1,16 +1,8 @@
 {
     "folders": [
         {
-            "name": "FrontEnd",
-            "path": "./src"
-        },
-        {
-            "name": "Tauri",
-            "path": "./src-tauri"
-        },
-        {
-            "name": "Repo Root",
-            "path": "."
+            "name": "Vibin",
+            "path": "./"
         }
     ],
     "settings": {
@@ -40,7 +32,7 @@
             "editor.defaultFormatter": "tamasfe.even-better-toml"
         },
         "[jsonc]": {
-            "editor.defaultFormatter": "esbenp.prettier-vscode"
+            "editor.defaultFormatter": "rvest.vs-code-prettier-eslint"
         },
         "[javascript]": {
             "editor.defaultFormatter": "esbenp.prettier-vscode"

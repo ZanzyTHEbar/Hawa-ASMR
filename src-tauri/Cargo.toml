@@ -12,8 +12,34 @@ rust-version = "1.69"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-log = "0.4.20"
-tauri = { version = "1.5", features = [ "os-all", "window-set-size", "window-set-decorations", "window-unmaximize", "window-request-user-attention", "process-exit", "window-maximize", "fs-all", "window-set-position", "process-relaunch", "window-show", "protocol-asset", "window-set-focus", "window-hide", "dialog-all", "window-unminimize", "window-set-fullscreen", "window-set-title", "window-center", "window-create", "window-start-dragging", "window-set-resizable", "window-minimize", "window-close", "notification-all", "path-all",
+log = "0.4"
+tauri = { version = "1.5", features = [
+    "os-all",
+    "window-set-size",
+    "window-set-decorations",
+    "window-unmaximize",
+    "window-request-user-attention",
+    "process-exit",
+    "window-maximize",
+    "fs-all",
+    "window-set-position",
+    "process-relaunch",
+    "window-show",
+    "protocol-asset",
+    "window-set-focus",
+    "window-hide",
+    "dialog-all",
+    "window-unminimize",
+    "window-set-fullscreen",
+    "window-set-title",
+    "window-center",
+    "window-create",
+    "window-start-dragging",
+    "window-set-resizable",
+    "window-minimize",
+    "window-close",
+    "notification-all",
+    "path-all",
     "macos-private-api",
     "system-tray",
     "shell-open",
@@ -27,6 +53,11 @@ tauri-specta = { version = "2.0.0-rc.2", features = [
 ] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+whoami = "1.4.1"
+sysinfo = "0.29.10"
+sprintf = "0.1.3"
+lazy_static = "1.4.0"
+futures-util = "0.3.28"
 tauri-plugin-positioner = { version = "1.0.4", features = ["system-tray"] }
 
 [dependencies.tauri-plugin-window-state]
@@ -44,6 +75,10 @@ branch = "dev"
 [dependencies.tauri-plugin-store]
 git = "https://github.com/tauri-apps/plugins-workspace"
 branch = "dev"
+
+[dependencies.tokio]
+version = "1"
+features = ["full"]
 
 [features]
 default = ["custom-protocol"]
