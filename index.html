@@ -1,14 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Tauri + Vue 3 App</title>
-  </head>
 
-  <body class="m-0 rounded-lg overflow-hidden relative pt-2 arrow">
-    <div id="app"></div>
-    <script type="module" src="/src/main.js"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  //TODO: Add favicon
+  <!-- <link rel="icon" type="image/svg+xml" href="/vite.svg" /> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibin</title>
+</head>
+
+<body class="m-0 rounded-lg overflow-hidden relative pt-2 arrow">
+
+  <div class="main-div">
+    <div id="root"></div>
+  </div>
+
+  <script type="module" src="/src/app.tsx"></script>
+  <script type="text/javascript" data-sqs-type="imageloader-bootstrapper">
+    (function () { if (window.ImageLoader) { window.ImageLoader.bootstrap({}, document); } })();
+  </script>
+</body>
+
 </html>
