@@ -102,14 +102,3 @@ export type PersistentSettings = {
     filterParams?: FilterParams
     oscSettings?: OSCSettings
 }
-
-/**
- * @description Backend Config
- */
-export type BackendConfig = {
-    version?: number | string
-    debug?: DebugMode
-    osc?: OSCSettings
-    devices?: BackendDevice[]
-    algorithm?: AlgorithmSettings
-}

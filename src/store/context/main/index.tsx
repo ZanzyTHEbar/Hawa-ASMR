@@ -3,17 +3,16 @@ import { invoke } from '@tauri-apps/api/tauri'
 import { appWindow } from '@tauri-apps/api/window'
 import { createContext, useContext, createMemo, type Component, Accessor } from 'solid-js'
 import { useEventListener } from 'solidjs-use'
-import { attachConsole, debug } from 'tauri-plugin-log-api'
-import type { Context } from '@static/types'
+import { attachConsole } from 'tauri-plugin-log-api'
+import type { Context } from '@static/index'
 import type { UnlistenFn } from '@tauri-apps/api/event'
 import { usePersistentStore } from '@src/store/tauriStore'
-import { ExitCodes } from '@static/types/enums'
-import { setFrontendReady } from 'tauri-plugin-splashscreen'
+import { ExitCodes } from '@static/enums'
 
 interface AppContextMain {
     getDetachConsole: Accessor<Promise<UnlistenFn>>
     handleAppBoot: () => void
-    handleTitlebar: (main?: boolean) => void
+    handleAppExit: (main?: boolean) => Promise<void>
 }
 
 const AppContextMain = createContext<AppContextMain>()
@@ -31,10 +30,7 @@ export const AppContextMainProvider: Component<Context> = (props) => {
         if (main) {
             const { save } = usePersistentStore()
             await save()
-            // stopMDNS()
-            // stopWebsocketClients()
             // saveSettings()
-            // stopPythonBackend()
             await exit(ExitCodes.USER_EXIT)
         }
         // TODO: call REST api to stop the backend
@@ -62,37 +58,10 @@ export const AppContextMainProvider: Component<Context> = (props) => {
             invoke('handle_save_window_state').then(() => {
                 console.log('[App Boot]: saved window state')
             })
-
-            setTimeout(() => {
-                setFrontendReady()
-                    .then(() => {
-                        debug('[App Boot]: Frontend Initialized')
-                        console.log('[App Boot]: Frontend Initialized')
-                    })
-                    .catch((e) => console.error(e))
-            }, 9000)
-
-            //setTimeout(() => invoke('close_splashscreen'), 15000)
         })
 
         //TODO: Start mdns and websocket clients only after the backend is ready
         // TODO: call REST api to start the backend
-        console.log('[App Boot]: Starting Python Backend')
-    }
-
-    const handleTitlebar = (main = false) => {
-        const titlebar = document.getElementsByClassName('titlebar')
-        if (titlebar) {
-            useEventListener(document.getElementById('titlebar-minimize'), 'click', () => {
-                appWindow.minimize()
-            })
-            useEventListener(document.getElementById('titlebar-maximize'), 'click', () => {
-                appWindow.toggleMaximize()
-            })
-            useEventListener(document.getElementById('titlebar-close'), 'click', async () => {
-                await handleAppExit(main)
-            })
-        }
     }
     //#endregion
 
@@ -101,7 +70,7 @@ export const AppContextMainProvider: Component<Context> = (props) => {
             value={{
                 getDetachConsole,
                 handleAppBoot,
-                handleTitlebar,
+                handleAppExit,
             }}>
             {props.children}
         </AppContextMain.Provider>

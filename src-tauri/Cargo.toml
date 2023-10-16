@@ -1,25 +1,76 @@
 [package]
-name = "hawa"
-version = "0.0.0"
-description = "A Tauri App"
-authors = ["you"]
-license = ""
+name = "vibin"
+version = "0.1.0"
+description = "A desktop app for vibin"
+authors = ["DaOfficialWizard"]
+default-run = "vibin"
+license = "MIT"
 repository = ""
 edition = "2021"
+rust-version = "1.69"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
-[build-dependencies]
-tauri-build = { version = "1.5", features = [] }
-
 [dependencies]
-tauri = { version = "1.5", features = [ "macos-private-api", "system-tray", "shell-open"] }
+log = "0.4.20"
+tauri = { version = "1.5", features = [
+    "macos-private-api",
+    "system-tray",
+    "shell-open",
+    "icon-ico",
+    "system-tray",
+] }
+specta = { version = "2.0.0-rc.5", features = ["functions", "tauri"] }
+tauri-specta = { version = "2.0.0-rc.2", features = [
+    "javascript",
+    "typescript",
+] }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 tauri-plugin-positioner = { version = "1.0.4", features = ["system-tray"] }
 
+[dependencies.tauri-plugin-window-state]
+git = "https://github.com/tauri-apps/plugins-workspace"
+branch = "dev"
+
+[dependencies.tauri-plugin-single-instance]
+git = "https://github.com/tauri-apps/tauri-plugin-single-instance/"
+branch = "dev"
+
+[dependencies.tauri-plugin-log]
+git = "https://github.com/tauri-apps/plugins-workspace"
+branch = "dev"
+
+[dependencies.tauri-plugin-store]
+git = "https://github.com/tauri-apps/plugins-workspace"
+branch = "dev"
 
 [features]
-# this feature is used for production builds or when `devPath` points to the filesystem
-# DO NOT REMOVE!!
+default = ["custom-protocol"]
 custom-protocol = ["tauri/custom-protocol"]
+updater = ["tauri/updater"]
+
+[build-dependencies.tauri-build]
+version = "1.5"
+features = []
+
+# //* If we need to implement OS specific commands, we can use these
+#[target.'cfg(target_os = "linux")'.dependencies]
+#sd-desktop-linux = { path = "./crates/linux" }
+#
+#[target.'cfg(target_os = "macos")'.dependencies]
+#sd-desktop-macos = { path = "./crates/macos" }
+#
+#[target.'cfg(target_os = "windows")'.dependencies]
+#sd-desktop-windows = { path = "./crates/windows" }
+
+[profile]
+[profile.dev]
+debug = 0
+
+[profile.release]
+panic = "abort"
+codegen-units = 1
+lto = true
+opt-level = "s"
+strip = true

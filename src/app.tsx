@@ -5,10 +5,9 @@ import { AppProvider } from '@store/context/app'
 const AppRoutes = lazy(() => import('@routes/Routes'))
 
 const App = () => {
-    const { handleTitlebar, handleAppBoot } = useAppContextMain()
-    const ref = document.getElementById('titlebar')
+    const { handleAppBoot } = useAppContextMain()
+    //const ref = document.getElementById('titlebar')
     onMount(() => {
-        handleTitlebar(true)
         handleAppBoot()
     })
 

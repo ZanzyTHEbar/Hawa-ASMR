@@ -6,13 +6,9 @@ import {
 import { ToasterStore } from 'solid-headless'
 import { createContext, useContext, createMemo, type Component, Accessor } from 'solid-js'
 import { createStore, produce } from 'solid-js/store'
-import type { Context } from '@static/types'
-import type {
-    Notifications,
-    NotificationAction,
-    AppStoreNotifications,
-} from '@static/types/interfaces'
-import { ENotificationAction } from '@static/types/enums'
+import type { Context } from '@static/index'
+import type { Notifications, NotificationAction, AppStoreNotifications } from '@static/interfaces'
+import { ENotificationAction } from '@static/enums'
 
 interface AppNotificationsContext {
     getEnableNotificationsSounds: Accessor<boolean>

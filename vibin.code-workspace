@@ -1,7 +1,7 @@
 {
     "folders": [
         {
-            "name": "Vue",
+            "name": "FrontEnd",
             "path": "./src"
         },
         {
@@ -73,6 +73,18 @@
         },
         "rust-analyzer.linkedProjects": [".\\src-tauri\\Cargo.toml"],
         "rust-analyzer.checkOnSave": true,
-        "cSpell.words": ["loaderror", "solidjs", "Vibin"]
+        "cSpell.words": [
+            "ASMR",
+            "codegen",
+            "kobalte",
+            "loaderror",
+            "prometheon",
+            "pyinstaller",
+            "solidjs",
+            "specta",
+            "typecheck",
+            "Unlisten",
+            "Vibin"
+        ]
     }
 }
