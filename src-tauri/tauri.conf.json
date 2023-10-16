@@ -153,14 +153,14 @@
         "windows": [
             {
                 "fullscreen": false,
-                "height": 400,
+                "height": 450,
                 "resizable": false,
                 "title": "menubar",
-                "width": 300,
+                "width": 350,
                 "visible": false,
                 "hiddenTitle": true,
                 "decorations": false,
-                "focus": true,
+                "focus": false,
                 "transparent": true
             }
         ],
