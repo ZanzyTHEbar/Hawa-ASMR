@@ -13,7 +13,7 @@ rust-version = "1.69"
 
 [dependencies]
 log = "0.4.20"
-tauri = { version = "1.5", features = [
+tauri = { version = "1.5", features = [ "os-all", "window-set-size", "window-set-decorations", "window-unmaximize", "window-request-user-attention", "process-exit", "window-maximize", "fs-all", "window-set-position", "process-relaunch", "window-show", "protocol-asset", "window-set-focus", "window-hide", "dialog-all", "window-unminimize", "window-set-fullscreen", "window-set-title", "window-center", "window-create", "window-start-dragging", "window-set-resizable", "window-minimize", "window-close", "notification-all", "path-all",
     "macos-private-api",
     "system-tray",
     "shell-open",

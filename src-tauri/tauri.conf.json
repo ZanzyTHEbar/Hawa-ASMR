@@ -1,4 +1,5 @@
 {
+    "$schema": "../node_modules/@tauri-apps/cli/schema.json",
     "build": {
         "beforeDevCommand": "pnpm dev",
         "beforeBuildCommand": "pnpm build",
@@ -14,25 +15,140 @@
         "macOSPrivateApi": true,
         "allowlist": {
             "all": false,
+            "clipboard": {
+                "all": false,
+                "readText": false,
+                "writeText": false
+            },
+            "dialog": {
+                "all": true,
+                "ask": true,
+                "confirm": true,
+                "message": true,
+                "open": true,
+                "save": true
+            },
+            "fs": {
+                "all": true,
+                "readFile": true,
+                "writeFile": true,
+                "readDir": true,
+                "copyFile": true,
+                "createDir": true,
+                "removeDir": true,
+                "removeFile": true,
+                "renameFile": true,
+                "exists": true,
+                "scope": ["$APP/*", "$APPDATA/*", "$APPCONFIG/*"]
+            },
+            "globalShortcut": {
+                "all": false
+            },
+            "notification": {
+                "all": true
+            },
+            "os": {
+                "all": true
+            },
+            "path": {
+                "all": true
+            },
+            "process": {
+                "all": false,
+                "exit": true,
+                "relaunch": true,
+                "relaunchDangerousAllowSymlinkMacos": false
+            },
+            "protocol": {
+                "all": false,
+                "asset": true,
+                "assetScope": ["$APPCONFIG/*", "$APPDATA/*", "$RESOURCE/*"]
+            },
             "shell": {
                 "all": false,
+                "execute": false,
                 "open": true
+            },
+            "window": {
+                "all": false,
+                "center": true,
+                "close": true,
+                "create": true,
+                "hide": true,
+                "maximize": true,
+                "minimize": true,
+                "print": false,
+                "requestUserAttention": true,
+                "setAlwaysOnTop": false,
+                "setCursorGrab": false,
+                "setCursorIcon": false,
+                "setCursorPosition": false,
+                "setCursorVisible": false,
+                "setDecorations": true,
+                "setFocus": true,
+                "setFullscreen": true,
+                "setIcon": false,
+                "setMaxSize": false,
+                "setMinSize": false,
+                "setPosition": true,
+                "setResizable": true,
+                "setSize": true,
+                "setSkipTaskbar": false,
+                "setTitle": true,
+                "show": true,
+                "startDragging": true,
+                "unmaximize": true,
+                "unminimize": true
             }
         },
         "bundle": {
-            "active": true,
-            "targets": "all",
             "identifier": "com.prometheon-technologies.vibin",
+            "active": true,
+            "category": "Entertainment",
+            "copyright": "Vibin",
+            "targets": "all",
+            "deb": {
+                "depends": []
+            },
             "icon": [
                 "icons/32x32.png",
                 "icons/128x128.png",
                 "icons/128x128@2x.png",
                 "icons/icon.icns",
                 "icons/icon.ico"
-            ]
+            ],
+            "longDescription": "",
+            "resources": [],
+            "externalBin": [],
+            "shortDescription": "",
+            "macOS": {
+                "frameworks": [],
+                "minimumSystemVersion": "",
+                "exceptionDomain": "",
+                "signingIdentity": null,
+                "entitlements": null
+            },
+            "windows": {
+                "allowDowngrades": false,
+                "certificateThumbprint": null,
+                "digestAlgorithm": "sha256",
+                "timestampUrl": "",
+                "webviewInstallMode": {
+                    "type": "downloadBootstrapper"
+                },
+                "wix": {
+                    "language": ["en-US"]
+                }
+            }
         },
         "security": {
             "csp": null
+        },
+        "updater": {
+            "active": false,
+            "dialog": true,
+            "endpoints": ["https://youtu.be/ZXjlZBisYPQ"],
+            "pubkey": ""
         },
         "windows": [
             {
@@ -44,7 +160,7 @@
                 "visible": false,
                 "hiddenTitle": true,
                 "decorations": false,
-                "focus": false,
+                "focus": true,
                 "transparent": true
             }
         ],
