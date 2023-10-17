@@ -58,6 +58,8 @@ const AppRoutes: Component = () => {
 
         // TODO: Implement media server discovery
         //* Scan for local dlna 7 media servers
+
+        
     })
 
     const createSettingsObject = () => {

@@ -3,6 +3,8 @@ import GithubIcon from '@components/GithubIcon'
 import Player from '@components/Player'
 import { useAppContextMain } from '@src/store/context/main'
 
+
+
 const Main = () => {
     const { handleAppExit } = useAppContextMain()
 

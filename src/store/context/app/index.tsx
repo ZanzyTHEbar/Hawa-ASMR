@@ -7,7 +7,9 @@ import type { Context, DebugMode } from '@static/index'
 import type { AppStore } from '@static/interfaces'
 import type { UnlistenFn } from '@tauri-apps/api/event'
 
-//TODO: Add profiles to save settings
+// TODO: Add profiles to save settings in the persistent store
+// TODO: Add a way to reset the persistent store
+// TODO: Implement saving src and volume levels of each player for a profile
 
 interface AppContext {
     getDetachConsole: Accessor<Promise<UnlistenFn>>

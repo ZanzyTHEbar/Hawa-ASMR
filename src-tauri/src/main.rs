@@ -21,7 +21,6 @@ use tauri::{
 };
 use tauri_plugin_positioner::{Position, WindowExt};
 
-use log::error;
 use serde::Serialize;
 use tokio::time::sleep;
 
@@ -81,15 +80,8 @@ async fn main() -> tauri::Result<()> {
 
       app.windows().iter().for_each(|(_, window)| {
         tokio::spawn({
-          let window = window.clone();
-
           async move {
             sleep(Duration::from_secs(3)).await;
-            /* if !window.is_visible().unwrap_or(true) {
-              error!("[]:  Window did not emit `app_ready` event in time, showing it now.");
-
-              window.show().expect("Main window failed to show");
-            } */
           }
         });
 
@@ -173,11 +165,11 @@ async fn main() -> tauri::Result<()> {
     })
     .on_window_event(|event| match event.event() {
       tauri::WindowEvent::Focused(is_focused) => {
-        // detect click outside of the focused window and hide the app
-       /*  if !is_focused {
+        if !is_focused {
           event.window().hide().unwrap();
-        } */
+        }
       }
+      WindowEvent::ThemeChanged(_) => todo!(),
       _ => {}
     })
     .build(tauri::generate_context!())?;
