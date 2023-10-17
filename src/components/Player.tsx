@@ -10,8 +10,11 @@ interface PlayerProps {
 }
 
 const Player: Component<PlayerProps> = (props) => {
-    const [sound, setSound] = createSignal<Howl | null>(null)
+    const [sound, setSound] = createSignal<Howl>()
     const [volume, setVolume] = createSignal(0)
+    const [sliderValue, setSliderValue] = createSignal(0)
+
+    let playerID = ''
 
     // TODO: Implement Spatial Audio Plugin for Howler
     // TODO: Implement Dolby Sound
@@ -20,39 +23,24 @@ const Player: Component<PlayerProps> = (props) => {
         format: ['dolby', 'webm', 'mp3'],
     }) */
 
-    createEffect(() => {
-        if (sound()) {
-            const value = volume() / 100
-            if (value === 0) {
-                sound()!.stop()
-            } else if (!sound()!.playing()) {
-                sound()!.play()
-            }
-        }
-    })
-
-    createEffect(() => {
-        info(`[Volume]: ${volume()}`)
-    })
-
     onMount(() => {
         setSound(
             new Howl({
-                src: [props.src],
-                volume: volume() / 100,
+                src: props.src,
+                volume: volume(),
                 loop: true,
             }),
         )
 
         console.log('[Player]: Loading audio')
 
-        sound()!.on('loaderror', () => {
+        sound()?.on('loaderror', () => {
             console.error('[Player]: Error loading audio')
             error('[Player]: Error loading audio')
         })
 
         if (volume() > 0) {
-            sound()!.play()
+            sound()?.play()
         }
 
         // TODO: Hook into stopAll event from footer
@@ -62,11 +50,28 @@ const Player: Component<PlayerProps> = (props) => {
         }) */
     })
 
-    onCleanup(() => {
-        if (sound()) {
-            sound()!.stop()
-            sound()!.unload()
+    createEffect(() => {
+        setVolume(sliderValue() / 100)
+        sound()?.volume(volume())
+    })
+
+    createEffect(() => {
+        if (volume() === 0) {
+            sound()?.stop()
+        } else if (!sound()?.playing()) {
+            console.log('[Player]: Playing audio')
+            sound()?.play()
         }
+    })
+
+    createEffect(() => {
+        info(`[Volume]: ${playerID} = ${sliderValue()}%`)
+    })
+
+    onCleanup(() => {
+        console.log('[Player]: Unloading audio')
+        sound()?.stop()
+        sound()?.unload()
     })
 
     return (
@@ -79,8 +84,9 @@ const Player: Component<PlayerProps> = (props) => {
             <div class="text-gray-800 pt-4 justify-start w-full">
                 <RangeInput
                     onChange={(value) => {
-                        setVolume(value.value[0])
+                        setSliderValue(value.value[0])
                     }}
+                    setID={(id) => (playerID = id)}
                     min={0}
                     max={100}
                 />

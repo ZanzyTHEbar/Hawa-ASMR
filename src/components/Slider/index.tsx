@@ -1,20 +1,23 @@
 import * as slider from '@zag-js/slider'
 import { normalizeProps, useMachine } from '@zag-js/solid'
-import { createEffect, createMemo, createUniqueId } from 'solid-js'
+import { createEffect, createMemo, createUniqueId, onMount } from 'solid-js'
 
 import './styles.css'
 import { debug } from 'tauri-plugin-log-api'
 
 export interface IProps {
     onChange: (details: { value: number[] }) => void
+    setID: (id: string) => void
     min: number
     max: number
 }
 
 const RangeInput = (props: IProps) => {
+    const id = createUniqueId()
+
     const [state, send] = useMachine(
         slider.machine({
-            id: createUniqueId(),
+            id: id,
             min: 0,
             max: 100,
             step: 0.02,
@@ -39,6 +42,10 @@ const RangeInput = (props: IProps) => {
 
     createEffect(() => {
         debug(`[RangeValue]: ${api().value}`)
+    })
+
+    onMount(() => {
+        props.setID(id)
     })
 
     return (
