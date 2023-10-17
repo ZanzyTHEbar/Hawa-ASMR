@@ -77,7 +77,9 @@ export default {
     plugins: [
         require('@tailwindcss/forms'),
         require('@tailwindcss/typography'),
+        require('tailwindcss-neumorphism'),
         require('@kobalte/tailwindcss')({ prefix: 'kb' }),
+
         iconsPlugin({
             collections: getIconCollections(['lucide']),
         }),

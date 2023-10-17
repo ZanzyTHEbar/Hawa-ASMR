@@ -100,7 +100,7 @@ const AppRoutes: Component = () => {
     })
 
     return (
-        <main class="pb-[5rem] w-[100%] px-8 max-w-[1920px]">
+        <main class="w-full">
             {/* <div class="header-wrapper">
                 <Header
                     hideButtons={userIsInSettings()}
@@ -108,9 +108,7 @@ const AppRoutes: Component = () => {
                     onClick={() => navigate('/')}
                 />
             </div> */}
-            <div class="pt-[70px]">
-                <Path />
-            </div>
+            <Path />
         </main>
     )
 }

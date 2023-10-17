@@ -12,34 +12,23 @@
     color: #ffffff;
 }
 
-.rs-range {
-    margin-top: 15px;
-    width: 100%;
-    height: 100%;
-    -webkit-appearance: none;
-    appearance: none;
-    cursor: pointer;
-    background: #23232e;
-    border-radius: 5px;
-    background-image: linear-gradient(#0071fe, #0071fe);
-    background-size: 0% 100%;
-    background-repeat: no-repeat;
-}
-
 .rs-label {
+    @apply w-5 h-5 flex items-center justify-center gap-0.5 rounded-full bg-white shadow border border-gray-300 focus:outline-none focus:bg-gray-100;
     pointer-events: none;
-    background: #23232e;
+    /* background: theme('colors.white'); */
     position: relative;
     top: 36px;
     display: block;
     width: 60px;
-    padding: 5px 0px 5px 0px;
-    border-radius: 6px;
+    /* padding: 5px 0px 5px 0px; */
+    /* border-radius: 6px; */
     margin-left: -20px;
     font-size: 20px;
     font-weight: bold;
     color: #fff;
-    transition: background 200ms ease, top 200ms ease;
+    transition:
+        background 200ms ease,
+        top 200ms ease;
 }
 
 .rs-background {
@@ -47,18 +36,13 @@
     top: 0px;
 }
 
-input[type='range']::-webkit-slider-runnable-track {
-    height: 0.5rem;
+/* input[type='range']::-webkit-slider-runnable-track {
+    @apply h-2;
 }
 
 input[type='range']::-webkit-slider-thumb {
     appearance: none;
-    margin-top: -8px;
-    background-color: #0071fe;
-    height: 25px;
-    border-radius: 100px;
-    width: 25px;
-    transition: all 200ms ease;
+    
 }
 
 input[type='range']:hover::-webkit-slider-thumb {
@@ -70,4 +54,25 @@ input[type='range']:hover::-webkit-slider-thumb {
 
 input[type='range']:hover::-webkit-slider-thumb div {
     background-color: #0071fe;
+} */
+
+[data-part='root'][data-focus] {
+    /* styles for root focus state */
 }
+
+[data-part='control'][data-focus] {
+    /* styles for control focus state */
+}
+
+[data-part='track'] {
+    @apply flex-[1_1_0%] nm-inset-gray-200 rounded-md cursor-pointer h-5 overflow-hidden border border-gray-300;
+}
+
+[data-part='range'] {
+    @apply flex-[1_1_0%] nm-flat-blue-400-xs h-5 rounded-[4px] cursor-pointer;
+}
+
+[data-part='thumb'] {
+    @apply nm-convex-blue-400-xs border-[2px] h-8 w-4 rounded-full mt-[-4px] shadow border-gray-300;
+}
+

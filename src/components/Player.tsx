@@ -40,6 +40,8 @@ const Player: Component<PlayerProps> = (props) => {
             }),
         )
 
+        console.log('[Player]: Loading audio')
+        
         sound()!.on('loaderror', () => {
             console.error('[Player]: Error loading audio')
             error('[Player]: Error loading audio')
@@ -63,15 +65,23 @@ const Player: Component<PlayerProps> = (props) => {
         }
     })
     return (
-        <div class="flex items-center gap-3 text-gray-600 mb-1">
-            <span class="text-lg icon" />
-            <RangeInput
-                onChange={(value) => {
-                    setVolume(value)
-                }}
-                format="percent"
-                disablePercent
-            />
+        <div class="flex items-center justify-center w-full flex-grow">
+            <div class="flex items-center text-gray-800 pr-10 pt-2">
+                <div class="appearance-none nm-inset-gray-200 leading-5 flex-grow flex items-center justify-center rounded-full bg-[#e0e0e0] p-3 m-2">
+                    <span class={`text-2xl ${props.icon}`} />
+                </div>
+            </div>
+            <div class="text-gray-800 pt-4 justify-start w-full">
+                <RangeInput
+                    onChange={(value) => {
+                        setVolume(value.value[0])
+                    }}
+                    format="percent"
+                    disablePercent
+                    min={0}
+                    max={100}
+                />
+            </div>
         </div>
     )
 }

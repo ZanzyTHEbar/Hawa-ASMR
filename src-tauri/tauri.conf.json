@@ -153,10 +153,10 @@
         "windows": [
             {
                 "fullscreen": false,
-                "height": 450,
+                "height": 400,
                 "resizable": false,
-                "title": "menubar",
-                "width": 350,
+                "title": "Vibin",
+                "width": 550,
                 "visible": false,
                 "hiddenTitle": true,
                 "decorations": false,

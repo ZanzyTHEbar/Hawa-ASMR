@@ -67,6 +67,8 @@
         "@solidjs/router": "^0.8.3",
         "@tailwindcss/typography": "^0.5.10",
         "@types/howler": "^2.2.9",
+        "@zag-js/slider": "^0.25.0",
+        "@zag-js/solid": "^0.25.0",
         "babel-preset-solid": "^1.7.12",
         "howler": "^2.2.4",
         "lodash": "^4.17.21",
@@ -77,6 +79,7 @@
         "solid-transition-group": "^0.2.3",
         "solidjs-icons": "^1.0.12",
         "solidjs-use": "^2.3.0",
+        "tailwindcss-neumorphism": "^0.1.0",
         "tauri-plugin-log-api": "github:tauri-apps/tauri-plugin-log",
         "tauri-plugin-store-api": "github:tauri-apps/tauri-plugin-store"
     }
