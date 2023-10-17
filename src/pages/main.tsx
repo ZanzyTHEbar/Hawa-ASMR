@@ -10,37 +10,37 @@ const Main = () => {
         {
             name: 'Rain',
             icon: 'i-lucide-cloud-rain',
-            src: '/sounds/rain.mp3',
+            src: 'sounds/rain.mp3',
         },
         {
             name: 'Thunder',
             icon: 'i-lucide-cloud-lightning',
-            src: '/sounds/thunder.mp3',
+            src: 'sounds/thunder.mp3',
         },
         {
             name: 'Wind',
             icon: 'i-lucide-wind',
-            src: '/sounds/wind.mp3',
+            src: 'sounds/wind.mp3',
         },
         {
             name: 'Campfire',
             icon: 'i-lucide-flame-kindling',
-            src: '/sounds/campfire.mp3',
+            src: 'sounds/campfire.mp3',
         },
         {
             name: 'Waves',
             icon: 'i-lucide-waves',
-            src: '/sounds/waves.mp3',
+            src: 'sounds/waves.mp3',
         },
         {
             name: 'Coffee Shop',
             icon: 'i-lucide-coffee',
-            src: '/sounds/coffee-shop.mp3',
+            src: 'sounds/coffee-shop.mp3',
         },
         {
             name: 'Forest',
             icon: 'i-lucide-trees',
-            src: '/sounds/forest.mp3',
+            src: 'sounds/forest.mp3',
         },
     ]
 
