@@ -7,10 +7,6 @@
 // TODO: Move system tray logic to menu module
 // TODO: Implement context menu for setting debug mode
 
-#[cfg(target_os = "linux")]
-use std::fs::metadata;
-#[cfg(target_os = "linux")]
-use std::path::PathBuf;
 use std::time::Duration;
 
 use std::env;
@@ -25,12 +21,8 @@ use tauri_plugin_positioner::{Position, WindowExt};
 use serde::Serialize;
 use tokio::time::sleep;
 
+use std::io::{Read, Seek, SeekFrom, Write};
 use std::sync::{Arc, Mutex};
-use std::{
-  io::{Read, Seek, SeekFrom, Write},
-  path::PathBuf,
-  process::{Command, Stdio},
-};
 
 mod modules;
 //use modules::menu;
