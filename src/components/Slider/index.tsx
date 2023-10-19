@@ -10,6 +10,7 @@ export interface IProps {
     setID: (id: string) => void
     min: number
     max: number
+    value: number
 }
 
 const RangeInput = (props: IProps) => {
@@ -44,6 +45,10 @@ const RangeInput = (props: IProps) => {
         debug(`[RangeValue]: ${api().value}`)
     })
 
+    createEffect(() => {
+        api().setValue([props.value])
+    })
+
     onMount(() => {
         props.setID(id)
     })
@@ -57,7 +62,7 @@ const RangeInput = (props: IProps) => {
                     </div>
                     <div {...api().getThumbProps({ index: 0 })}>
                         <div class="grip" />
-                        <input {...api().getHiddenInputProps({ index: 0 })} />
+                        <input {...api().getHiddenInputProps({ index: 0 })} value={props.value} />
                     </div>
                 </div>
             </div>

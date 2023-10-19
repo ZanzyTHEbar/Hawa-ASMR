@@ -3,7 +3,6 @@
   windows_subsystem = "windows"
 )]
 
-// TODO: Implement Resources and asset protocol tauri api for loading sound files
 // TODO: Implement support for local media server
 // TODO: Move system tray logic to menu module
 // TODO: Implement context menu for setting debug mode

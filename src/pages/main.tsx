@@ -1,4 +1,4 @@
-import { For, createSignal, onMount } from 'solid-js'
+import { For, createSignal } from 'solid-js'
 import GithubIcon from '@components/GithubIcon'
 import Player from '@components/Player'
 import { useAppContextMain } from '@src/store/context/main'
@@ -10,7 +10,13 @@ interface Sound {
 }
 
 const Main = () => {
+    const [stopAll, setStopAll] = createSignal(false)
+
     const { handleAppExit } = useAppContextMain()
+
+    const handleStopAll = () => {
+        setStopAll(true)
+    }
 
     const sounds: Sound[] = [
         {
@@ -60,6 +66,7 @@ const Main = () => {
                             src={sound.src}
                             name={sound.name}
                             icon={sound.icon}
+                            stop={stopAll()}
                         />
                     )}
                 </For>
@@ -78,7 +85,7 @@ const Main = () => {
                     <GithubIcon width={25} height={25} class="text-gray-500" fill="black" />
                 </a>
                 <button
-                    /* @click="stopAll" */
+                    onClick={handleStopAll}
                     title="Stop All"
                     class="h-7 w-7 flex items-center justify-center rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
                     <span class="h-5 w-5 bg-gray-500 rounded-[1px]" />

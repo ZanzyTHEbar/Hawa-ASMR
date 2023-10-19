@@ -55,9 +55,6 @@ export const AppContextMainProvider: Component<Context> = (props) => {
                 info('[App Boot]: saved window state')
             })
         })
-
-        //TODO: Start mdns and websocket clients only after the backend is ready
-        // TODO: call REST api to start the backend
     }
     //#endregion
 

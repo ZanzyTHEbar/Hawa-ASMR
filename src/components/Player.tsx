@@ -2,13 +2,14 @@ import { resolveResource, join } from '@tauri-apps/api/path'
 import { invoke, convertFileSrc } from '@tauri-apps/api/tauri'
 import { Howl } from 'howler'
 import { Component, createEffect, createSignal, onMount, onCleanup } from 'solid-js'
-import { error, info } from 'tauri-plugin-log-api'
+import { debug, info } from 'tauri-plugin-log-api'
 import RangeInput from '@components/Slider'
 
 interface PlayerProps {
     src: string
     name: string
     icon: string
+    stop: boolean
 }
 
 const Player: Component<PlayerProps> = (props) => {
@@ -30,13 +31,7 @@ const Player: Component<PlayerProps> = (props) => {
         path = await join('audio', path)
         const resourcePath = await resolveResource(path)
 
-        //// clean up the path
-        //const resourcePathArray = resourcePath.split('\\\\?')
-        //
-        //// remove only the first \ in the path
-        //resourcePathArray[1] = resourcePathArray[1].replace('\\', '')
-
-        console.log('[Get Resource File Path]: ', resourcePath)
+        debug(`[Get Resource File Path]: ${resourcePath}`)
         return resourcePath
     }
 
@@ -51,8 +46,8 @@ const Player: Component<PlayerProps> = (props) => {
 
     onMount(async () => {
         await handleBackend()
-        console.log('[Player]: Creating audio')
-        console.log('[Player]: ', source())
+        debug('[Player]: Creating audio')
+        debug(`[Player]: ${source()}`)
         setSound(
             new Howl({
                 src: source(),
@@ -60,10 +55,8 @@ const Player: Component<PlayerProps> = (props) => {
                 loop: true,
             }),
         )
-        console.log('[Player]: Loading audio')
+        debug('[Player]: Loading audio')
     })
-
-   
 
     createEffect(() => {
         setVolume(sliderValue() / 100)
@@ -74,7 +67,7 @@ const Player: Component<PlayerProps> = (props) => {
         if (volume() === 0) {
             sound()?.stop()
         } else if (!sound()?.playing()) {
-            console.log('[Player]: Playing audio')
+            debug('[Player]: Playing audio')
             sound()?.play()
         }
     })
@@ -83,8 +76,17 @@ const Player: Component<PlayerProps> = (props) => {
         info(`[Volume]: ${playerID} = ${sliderValue()}%`)
     })
 
+    createEffect(() => {
+        if (props.stop) {
+            debug('[Player]: Stopping audio')
+            setSliderValue(0)
+            sound()?.volume(0)
+            sound()?.stop()
+        }
+    })
+
     onCleanup(() => {
-        console.log('[Player]: Unloading audio')
+        debug('[Player]: Unloading audio')
         sound()?.stop()
         sound()?.unload()
     })
@@ -104,6 +106,7 @@ const Player: Component<PlayerProps> = (props) => {
                     setID={(id) => (playerID = id)}
                     min={0}
                     max={100}
+                    value={sliderValue()}
                 />
             </div>
         </div>
