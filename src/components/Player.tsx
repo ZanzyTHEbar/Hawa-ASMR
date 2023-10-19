@@ -1,3 +1,5 @@
+import { resolveResource, join } from '@tauri-apps/api/path'
+import { invoke, convertFileSrc } from '@tauri-apps/api/tauri'
 import { Howl } from 'howler'
 import { Component, createEffect, createSignal, onMount, onCleanup } from 'solid-js'
 import { error, info } from 'tauri-plugin-log-api'
@@ -12,6 +14,7 @@ interface PlayerProps {
 const Player: Component<PlayerProps> = (props) => {
     const [sound, setSound] = createSignal<Howl>()
     const [volume, setVolume] = createSignal(0)
+    const [source, setSource] = createSignal('')
     const [sliderValue, setSliderValue] = createSignal(0)
 
     let playerID = ''
@@ -23,32 +26,44 @@ const Player: Component<PlayerProps> = (props) => {
         format: ['dolby', 'webm', 'mp3'],
     }) */
 
-    onMount(() => {
+    const getResourcePath = async (path: string) => {
+        path = await join('audio', path)
+        const resourcePath = await resolveResource(path)
+
+        //// clean up the path
+        //const resourcePathArray = resourcePath.split('\\\\?')
+        //
+        //// remove only the first \ in the path
+        //resourcePathArray[1] = resourcePathArray[1].replace('\\', '')
+
+        console.log('[Get Resource File Path]: ', resourcePath)
+        return resourcePath
+    }
+
+    const handleBackend = async () => {
+        const sound = await getResourcePath(props.src)
+
+        const [scheme, path] = await invoke<Array<string>>('video_uri', {
+            path: sound,
+        })
+        setSource(convertFileSrc(path, scheme))
+    }
+
+    onMount(async () => {
+        await handleBackend()
+        console.log('[Player]: Creating audio')
+        console.log('[Player]: ', source())
         setSound(
             new Howl({
-                src: props.src,
+                src: source(),
                 volume: volume(),
                 loop: true,
             }),
         )
-
         console.log('[Player]: Loading audio')
-
-        sound()?.on('loaderror', () => {
-            console.error('[Player]: Error loading audio')
-            error('[Player]: Error loading audio')
-        })
-
-        if (volume() > 0) {
-            sound()?.play()
-        }
-
-        // TODO: Hook into stopAll event from footer
-        /* emitter.on('stopAll', () => {
-            sound.value.stop()
-            sliderValue.value = [0]
-        }) */
     })
+
+   
 
     createEffect(() => {
         setVolume(sliderValue() / 100)

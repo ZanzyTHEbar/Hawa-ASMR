@@ -1,48 +1,52 @@
-import { For } from 'solid-js'
+import { For, createSignal, onMount } from 'solid-js'
 import GithubIcon from '@components/GithubIcon'
 import Player from '@components/Player'
 import { useAppContextMain } from '@src/store/context/main'
 
-
+interface Sound {
+    name: string
+    icon: string
+    src: string
+}
 
 const Main = () => {
     const { handleAppExit } = useAppContextMain()
 
-    const sounds = [
+    const sounds: Sound[] = [
         {
             name: 'Rain',
             icon: 'i-lucide-cloud-rain',
-            src: 'sounds/rain.mp3',
+            src: 'rain.mp3',
         },
         {
             name: 'Thunder',
             icon: 'i-lucide-cloud-lightning',
-            src: 'sounds/thunder.mp3',
+            src: 'thunder.mp3',
         },
         {
             name: 'Wind',
             icon: 'i-lucide-wind',
-            src: 'sounds/wind.mp3',
+            src: 'wind.mp3',
         },
         {
             name: 'Campfire',
             icon: 'i-lucide-flame-kindling',
-            src: 'sounds/campfire.mp3',
+            src: 'campfire.mp3',
         },
         {
             name: 'Waves',
             icon: 'i-lucide-waves',
-            src: 'sounds/waves.mp3',
+            src: 'waves.mp3',
         },
         {
             name: 'Coffee Shop',
             icon: 'i-lucide-coffee',
-            src: 'sounds/coffee-shop.mp3',
+            src: 'coffee-shop.mp3',
         },
         {
             name: 'Forest',
             icon: 'i-lucide-trees',
-            src: 'sounds/forest.mp3',
+            src: 'forest.mp3',
         },
     ]
 
@@ -69,7 +73,7 @@ const Main = () => {
                 />
                 <a
                     target="_blank"
-                    href="https://github.com/fayazara/hawa"
+                    href="https://github.com/ZanzyTHEbar/Vibin"
                     class="h-7 w-7 flex items-center justify-center rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
                     <GithubIcon width={25} height={25} class="text-gray-500" fill="black" />
                 </a>

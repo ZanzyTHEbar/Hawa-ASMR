@@ -67,6 +67,7 @@
         "rust-analyzer.checkOnSave": true,
         "cSpell.words": [
             "ASMR",
+            "byteranges",
             "codegen",
             "kobalte",
             "loaderror",

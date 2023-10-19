@@ -105,3 +105,19 @@ pub fn handle_debug<R: tauri::Runtime>(
   // return the result
   Ok(log_level)
 }
+
+// returns the scheme and the path of the video file
+// we're using this just to allow using the custom `stream` protocol or tauri built-in `asset` protocol
+#[tauri::command]
+pub fn video_uri(path: std::path::PathBuf) -> (&'static str, std::path::PathBuf) {
+  #[cfg(feature = "protocol-asset")]
+  {
+    //let mut path = std::env::current_dir().unwrap();
+
+    //path.push("test_video.mp4");
+    ("asset", path)
+  }
+
+  #[cfg(not(feature = "protocol-asset"))]
+  ("stream", path)
+}
