@@ -4,7 +4,6 @@
 )]
 
 // TODO: Implement support for local media server
-// TODO: Move system tray logic to menu module
 // TODO: Implement context menu for setting debug mode
 
 use std::time::Duration;
@@ -14,9 +13,8 @@ use tauri::{
   self,
   http::{header::*, status::StatusCode, HttpRange, ResponseBuilder},
   ipc::RemoteDomainAccessScope,
-  CustomMenuItem, Manager, RunEvent, SystemTray, SystemTrayEvent, SystemTrayMenu, WindowEvent,
+  Manager, RunEvent,
 };
-use tauri_plugin_positioner::{Position, WindowExt};
 
 use serde::Serialize;
 use tokio::time::sleep;
@@ -25,7 +23,7 @@ use std::io::{Read, Seek, SeekFrom, Write};
 use std::sync::{Arc, Mutex};
 
 mod modules;
-//use modules::menu;
+use modules::menu;
 use modules::tauri_commands;
 
 #[derive(Clone, Serialize)]
@@ -39,20 +37,10 @@ async fn main() -> tauri::Result<()> {
   // NOTE: for production use `rand` crate to generate a random boundary
   let boundary_id = Arc::new(Mutex::new(0));
 
-  let mut system_tray_menu = SystemTrayMenu::new();
-
-  if cfg!(target_os = "linux") {
-    let open = CustomMenuItem::new("open".to_string(), "Open");
-    system_tray_menu = system_tray_menu.clone().add_item(open);
-  }
-
-  let quit = CustomMenuItem::new("quit".to_string(), "Quit").accelerator("Cmd+Q");
-  system_tray_menu = system_tray_menu.clone().add_item(quit);
-
   let app = tauri::Builder::default();
 
   let app = app.on_window_event(|e| {
-    if let WindowEvent::Resized(_) = e.event() {
+    if let tauri::WindowEvent::Resized(_) = e.event() {
       std::thread::sleep(std::time::Duration::from_nanos(1));
     }
   });
@@ -62,7 +50,7 @@ async fn main() -> tauri::Result<()> {
       tauri_commands::get_user,
       tauri_commands::handle_save_window_state,
       tauri_commands::handle_load_window_state,
-      tauri_commands::video_uri,
+      tauri_commands::video_uri
     ])
     .plugin(tauri_plugin_positioner::init())
     .plugin(tauri_plugin_single_instance::init(|app, args, cwd| {
@@ -116,64 +104,15 @@ async fn main() -> tauri::Result<()> {
 
       Ok(())
     })
-    .system_tray(SystemTray::new().with_menu(system_tray_menu))
-    .on_system_tray_event(|app, event| {
-      tauri_plugin_positioner::on_tray_event(app, &event);
-      match event {
-        SystemTrayEvent::LeftClick {
-          position: _,
-          size: _,
-          ..
-        } => {
-          let window = app.get_window("main").unwrap();
-          let _ = window.move_window(Position::TrayCenter);
-
-          if window.is_visible().unwrap() {
-            window.hide().unwrap();
-          } else {
-            window.show().unwrap();
-            window.set_focus().unwrap();
-          }
-        }
-        SystemTrayEvent::RightClick {
-          position: _,
-          size: _,
-          ..
-        } => {
-          println!("system tray received a right click");
-        }
-        SystemTrayEvent::DoubleClick {
-          position: _,
-          size: _,
-          ..
-        } => {
-          println!("system tray received a double click");
-        }
-        SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
-          "open" => {
-            let window = app.get_window("main").unwrap();
-            window.show().unwrap();
-            window.set_focus().unwrap();
-          }
-          "quit" => {
-            std::process::exit(0);
-          }
-          "hide" => {
-            let window = app.get_window("main").unwrap();
-            window.hide().unwrap();
-          }
-          _ => {}
-        },
-        _ => {}
-      }
-    })
+    .system_tray(menu::create_system_tray())
+    .on_system_tray_event(menu::handle_menu_event)
     .on_window_event(|event| match event.event() {
       tauri::WindowEvent::Focused(is_focused) => {
         if !is_focused {
           event.window().hide().unwrap();
         }
       }
-      WindowEvent::ThemeChanged(_) => todo!(),
+      tauri::WindowEvent::ThemeChanged(_) => todo!(),
       _ => {}
     })
     .register_uri_scheme_protocol("stream", move |_app, request| {
@@ -182,11 +121,6 @@ async fn main() -> tauri::Result<()> {
       let path = percent_encoding::percent_decode(path.as_bytes())
         .decode_utf8_lossy()
         .to_string();
-
-      //if path != "test_video.mp4" {
-      //  // return error 404 if it's not our video
-      //  return ResponseBuilder::new().status(404).body(Vec::new());
-      //}
 
       let mut file = std::fs::File::open(&path)?;
 

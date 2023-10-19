@@ -1,6 +1,6 @@
 use log::debug;
 use log::{error, info};
-use tauri::{self, Manager};
+use tauri::{self, api::path::config_dir, api::shell::open, Manager};
 
 use tauri_plugin_store::with_store;
 
@@ -19,23 +19,6 @@ pub async fn get_user() -> Result<String, String> {
   info!("User name: {}", user_name);
   Ok(user_name)
 }
-
-/// TODO: implement a way to open the logs dir from the UI
-//#[tauri::command(async)]
-//#[specta::specta]
-//async fn open_logs_dir(node: tauri::State<'_, Arc<Node>>) -> Result<(), ()> {
-//	let logs_path = node.data_dir.join("logs");
-//
-//	#[cfg(target_os = "linux")]
-//	let open_result = sd_desktop_linux::open_file_path(&logs_path);
-//
-//	#[cfg(not(target_os = "linux"))]
-//	let open_result = opener::open(logs_path);
-//
-//	open_result.map_err(|err| {
-//		error!("Failed to open logs dir: {err}");
-//	})
-//}
 
 #[tauri::command]
 #[specta::specta]

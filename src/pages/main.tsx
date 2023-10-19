@@ -1,3 +1,5 @@
+import { appLogDir } from '@tauri-apps/api/path'
+import { open } from '@tauri-apps/api/shell'
 import { For, createSignal } from 'solid-js'
 import GithubIcon from '@components/GithubIcon'
 import Player from '@components/Player'
@@ -16,6 +18,13 @@ const Main = () => {
 
     const handleStopAll = () => {
         setStopAll(true)
+    }
+
+    const handleConfigDir = () => {
+        appLogDir().then((dir) => {
+            console.log(dir)
+            open(dir).then(() => console.log('opened'))
+        })
     }
 
     const sounds: Sound[] = [
@@ -73,7 +82,7 @@ const Main = () => {
             </div>
             <footer class="flex gap-2 w-full items-center justify-end p-1">
                 <img
-                    class=" drop-shadow-2xl mr-16 flex items-center justify-start rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
+                    class="drop-shadow-2xl mr-16 pl-3 flex items-center justify-start rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none"
                     src="signature.png"
                     width={175}
                     height={250}
@@ -95,6 +104,12 @@ const Main = () => {
                     title="Exit"
                     class="h-7 w-7 flex items-center justify-center rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
                     <span class="text-2xl i-lucide-power" />
+                </button>
+                <button
+                    onClick={handleConfigDir}
+                    title="Logs"
+                    class="h-7 w-7 flex items-center justify-center rounded-md hover:bg-gray-100 focus:bg-gray-100 focus:outline-none">
+                    <span class="text-2xl i-lucide-bug" />
                 </button>
             </footer>
         </div>
